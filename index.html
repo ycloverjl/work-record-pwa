@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#256f5c">
+  <title>手工记录</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="手工记录">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f4ee;
+      --surface: #fffdf8;
+      --ink: #262521;
+      --muted: #746f66;
+      --line: #ded7ca;
+      --green: #256f5c;
+      --green-deep: #174d41;
+      --coral: #b94f3f;
+      --blue: #416c9b;
+      --shadow: 0 10px 28px rgba(38, 37, 33, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.45;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .app {
+      width: min(100% - 22px, 760px);
+      margin: 0 auto;
+      padding: calc(16px + env(safe-area-inset-top)) 0 calc(30px + env(safe-area-inset-bottom));
+    }
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .eyebrow {
+      margin: 0 0 2px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    h1, h2 { margin: 0; letter-spacing: 0; }
+    h1 { font-size: 34px; line-height: 1.05; }
+    h2 { font-size: 18px; }
+    .pill {
+      border: 1px solid rgba(37, 111, 92, .24);
+      border-radius: 999px;
+      background: #edf7f0;
+      color: var(--green-deep);
+      padding: 8px 11px;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      min-height: 84px;
+    }
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .metric strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 25px;
+      line-height: 1.08;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      padding: 13px;
+    }
+    .form {
+      display: grid;
+      gap: 11px;
+      padding: 13px;
+    }
+    label span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    input, select {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 12px;
+    }
+    input:focus, select:focus, button:focus-visible {
+      outline: 3px solid rgba(65, 108, 155, .24);
+      outline-offset: 1px;
+    }
+    .stepper {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 48px;
+      gap: 8px;
+    }
+    .icon-btn {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f2eee5;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 900;
+    }
+    .primary, .secondary, .danger, .tiny {
+      min-height: 42px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      padding: 0 13px;
+      font-weight: 850;
+    }
+    .primary {
+      background: var(--green);
+      color: white;
+      min-height: 48px;
+      font-size: 17px;
+    }
+    .secondary, .tiny {
+      border-color: var(--line);
+      background: #fff;
+      color: var(--ink);
+    }
+    .danger {
+      border-color: rgba(185, 79, 63, .36);
+      background: #fff7f4;
+      color: var(--coral);
+    }
+    .quick {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 13px 13px;
+    }
+    .quick button {
+      border: 1px solid rgba(37, 111, 92, .24);
+      border-radius: 999px;
+      background: #eff7f0;
+      color: var(--green-deep);
+      padding: 8px 11px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      background: rgba(247, 244, 238, .94);
+      padding: 7px 0;
+      backdrop-filter: blur(10px);
+    }
+    .tab {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .tab.active {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+    .view { display: none; }
+    .view.active { display: block; }
+    .summary-row, .price-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) 62px 72px 82px;
+      gap: 8px;
+      align-items: center;
+      padding: 11px 13px;
+      border-bottom: 1px solid var(--line);
+    }
+    .summary-row.header {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      background: #fbf8f1;
+    }
+    .summary-row:last-child, .price-row:last-child { border-bottom: 0; }
+    .right { text-align: right; }
+    .day {
+      border-bottom: 1px solid var(--line);
+    }
+    .day:last-child { border-bottom: 0; }
+    .day-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 13px;
+      color: var(--blue);
+      font-weight: 900;
+      background: #fbf8f1;
+    }
+    .entry {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 76px;
+      gap: 8px;
+      padding: 11px 13px;
+      border-top: 1px solid #eee7dc;
+    }
+    .entry-title strong, .entry-title span {
+      display: block;
+    }
+    .entry-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .entry-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+    }
+    .entry-actions input {
+      min-height: 38px;
+      text-align: center;
+    }
+    .entry-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+    .tiny {
+      min-height: 34px;
+      padding: 0 8px;
+      font-size: 13px;
+    }
+    .tools {
+      display: grid;
+      gap: 9px;
+      padding: 13px;
+    }
+    .tools-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .search {
+      max-width: 160px;
+      min-height: 38px;
+    }
+    .empty {
+      padding: 22px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .toast {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      border-radius: 8px;
+      background: var(--ink);
+      color: white;
+      padding: 12px 14px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events: none;
+      text-align: center;
+      z-index: 5;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (min-width: 680px) {
+      .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .entry { grid-template-columns: minmax(0, 1fr) 230px; }
+      .entry-actions { grid-template-columns: 76px 1fr; }
+      .entry-buttons { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <p class="eyebrow">手机独立版</p>
+        <h1>手工记录</h1>
+      </div>
+      <div class="pill" id="saveState">本机保存</div>
+    </header>
+
+    <section class="metrics" aria-label="汇总">
+      <article class="metric"><span>总手工费</span><strong id="amount">0</strong></article>
+      <article class="metric"><span>总数量</span><strong id="quantity">0</strong></article>
+      <article class="metric"><span>项目数</span><strong id="projects">0</strong></article>
+      <article class="metric"><span>最近记录</span><strong id="latest">-</strong></article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>新增记录</h2></div>
+      <form class="form" id="entryForm">
+        <label><span>日期</span><input id="dateInput" type="date" required></label>
+        <label><span>项目</span><select id="itemInput" required></select></label>
+        <label>
+          <span>数量</span>
+          <div class="stepper">
+            <button class="icon-btn" type="button" id="minus">-</button>
+            <input id="qtyInput" type="number" min="1" step="1" value="1" required>
+            <button class="icon-btn" type="button" id="plus">+</button>
+          </div>
+        </label>
+        <button class="primary" type="submit">保存记录</button>
+      </form>
+      <div class="quick" id="quickList"></div>
+    </section>
+
+    <nav class="tabs" aria-label="切换视图">
+      <button class="tab active" type="button" data-view="summary">汇总</button>
+      <button class="tab" type="button" data-view="daily">每日</button>
+      <button class="tab" type="button" data-view="backup">备份</button>
+    </nav>
+
+    <section class="panel view active" id="summaryView">
+      <div class="panel-head">
+        <h2>项目明细</h2>
+        <input id="search" class="search" type="search" placeholder="搜索项目">
+      </div>
+      <div id="summaryList"></div>
+    </section>
+
+    <section class="panel view" id="dailyView">
+      <div class="panel-head"><h2>每日明细</h2></div>
+      <div id="dailyList"></div>
+    </section>
+
+    <section class="panel view" id="backupView">
+      <div class="panel-head"><h2>备份和恢复</h2></div>
+      <div class="tools">
+        <p class="hint">数据只保存在当前手机浏览器里。建议隔几天导出一次 JSON 备份；CSV 可以直接发给自己或用表格软件打开。</p>
+        <div class="tools-row">
+          <button class="secondary" type="button" id="exportJson">导出 JSON</button>
+          <button class="secondary" type="button" id="exportCsv">导出 CSV</button>
+        </div>
+        <label>
+          <span>导入 JSON 备份</span>
+          <input id="importJson" type="file" accept="application/json,.json">
+        </label>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const INITIAL_DATA = {"version":1,"year":2026,"month":5,"records":[{"id":"2026-05-01-000","date":"2026-05-01","item":"40头疗","quantity":3,"source":"40头"},{"id":"2026-05-01-002","date":"2026-05-01","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-01-001","date":"2026-05-01","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-02-001","date":"2026-05-02","item":"30采耳","quantity":2,"source":"30采耳"},{"id":"2026-05-02-004","date":"2026-05-02","item":"40耳浴","quantity":1,"source":"40耳浴"},{"id":"2026-05-02-002","date":"2026-05-02","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-02-000","date":"2026-05-02","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-02-003","date":"2026-05-02","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-03-002","date":"2026-05-03","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-03-000","date":"2026-05-03","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-03-001","date":"2026-05-03","item":"60面护","quantity":1,"source":"60面"},{"id":"2026-05-04-005","date":"2026-05-04","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-04-002","date":"2026-05-04","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-04-001","date":"2026-05-04","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-04-000","date":"2026-05-04","item":"80头疗","quantity":2,"source":"80头"},{"id":"2026-05-04-003","date":"2026-05-04","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-04-004","date":"2026-05-04","item":"60面护","quantity":1,"source":"60面"},{"id":"2026-05-05-002","date":"2026-05-05","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-05-001","date":"2026-05-05","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-05-000","date":"2026-05-05","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-06-002","date":"2026-05-06","item":"30头颈肩","quantity":2,"source":"30肩颈"},{"id":"2026-05-06-001","date":"2026-05-06","item":"40头疗","quantity":3,"source":"40头"},{"id":"2026-05-06-000","date":"2026-05-06","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-07-000","date":"2026-05-07","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-08-000","date":"2026-05-08","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-09-002","date":"2026-05-09","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-09-001","date":"2026-05-09","item":"40头疗","quantity":3,"source":"40头"},{"id":"2026-05-09-000","date":"2026-05-09","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-10-002","date":"2026-05-10","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-10-001","date":"2026-05-10","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-10-000","date":"2026-05-10","item":"60精油","quantity":1,"source":"60精油"},{"id":"2026-05-11-001","date":"2026-05-11","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-11-003","date":"2026-05-11","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-11-000","date":"2026-05-11","item":"60头疗","quantity":5,"source":"60头"},{"id":"2026-05-11-002","date":"2026-05-11","item":"70头疗","quantity":1,"source":"70头"},{"id":"2026-05-12-001","date":"2026-05-12","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-12-000","date":"2026-05-12","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-13-001","date":"2026-05-13","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-13-000","date":"2026-05-13","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-14-001","date":"2026-05-14","item":"30采耳","quantity":2,"source":"30采耳"},{"id":"2026-05-14-002","date":"2026-05-14","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-14-000","date":"2026-05-14","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-15-003","date":"2026-05-15","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-15-000","date":"2026-05-15","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-15-002","date":"2026-05-15","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-15-001","date":"2026-05-15","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-16-001","date":"2026-05-16","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-16-000","date":"2026-05-16","item":"60头疗","quantity":6,"source":"60头"},{"id":"2026-05-17-004","date":"2026-05-17","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-17-003","date":"2026-05-17","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-17-001","date":"2026-05-17","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-17-002","date":"2026-05-17","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-17-000","date":"2026-05-17","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-18-002","date":"2026-05-18","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-18-004","date":"2026-05-18","item":"30腰背部按摩","quantity":1,"source":"30腰背"},{"id":"2026-05-18-003","date":"2026-05-18","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-18-001","date":"2026-05-18","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-18-005","date":"2026-05-18","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-18-000","date":"2026-05-18","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-19-002","date":"2026-05-19","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-19-000","date":"2026-05-19","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-19-001","date":"2026-05-19","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-20-001","date":"2026-05-20","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-20-000","date":"2026-05-20","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-20-002","date":"2026-05-20","item":"80头疗","quantity":2,"source":"80头"},{"id":"2026-05-23-005","date":"2026-05-23","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-23-003","date":"2026-05-23","item":"30腰背部按摩","quantity":1,"source":"30腰背"},{"id":"2026-05-23-002","date":"2026-05-23","item":"30采耳","quantity":2,"source":"30采耳"},{"id":"2026-05-23-001","date":"2026-05-23","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-23-000","date":"2026-05-23","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-23-004","date":"2026-05-23","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-24-001","date":"2026-05-24","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-24-000","date":"2026-05-24","item":"45精油","quantity":2,"source":"45精油"},{"id":"2026-05-25-002","date":"2026-05-25","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-25-001","date":"2026-05-25","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-25-000","date":"2026-05-25","item":"70头疗","quantity":1,"source":"70头"},{"id":"2026-05-25-003","date":"2026-05-25","item":"80头疗","quantity":1,"source":"80头"}],"createdAt":"2026-05-25T14:49:03.600Z"};
+    const PRICE_ITEMS = [{"name":"30头颈肩","unitPrice":31,"aliases":["30头颈肩","30肩颈"]},{"name":"30腰背部按摩","unitPrice":31,"aliases":["30腰背部按摩","30腰背"]},{"name":"30min头部理筋","unitPrice":20.5,"aliases":["30min头部理筋","30头部理筋"]},{"name":"30min眼部理筋","unitPrice":20.5,"aliases":["30min眼部理筋","30眼部理筋"]},{"name":"30采耳","unitPrice":20.5,"aliases":["30采耳"]},{"name":"40耳浴","unitPrice":27.5,"aliases":["40耳浴"]},{"name":"40头疗","unitPrice":20.5,"aliases":["40头疗","40头"]},{"name":"60头疗","unitPrice":27.5,"aliases":["60头疗","60头"]},{"name":"70头疗","unitPrice":34.9,"aliases":["70头疗","70头"]},{"name":"80头疗","unitPrice":38,"aliases":["80头疗","80头"]},{"name":"40腿部精油","unitPrice":34.5,"aliases":["40腿部精油","40腿精油"]},{"name":"45精油","unitPrice":38,"aliases":["45精油"]},{"name":"60精油","unitPrice":45,"aliases":["60精油"]},{"name":"90精油","unitPrice":69.5,"aliases":["90精油"]},{"name":"60颈肩腰背通","unitPrice":59,"aliases":["60颈肩腰背通"]},{"name":"60面护","unitPrice":31,"aliases":["60面护","60面"]},{"name":"50透皮熏蒸头疗","unitPrice":30,"aliases":["50透皮熏蒸头疗"]},{"name":"20快洗","unitPrice":7,"aliases":["20快洗"]},{"name":"50透皮熏蒸","unitPrice":40,"aliases":["50透皮熏蒸"]},{"name":"50头疗","unitPrice":15,"aliases":["50头疗","50头"]}];
+  </script>
+  <script>
+    const STORAGE_KEY = "lanbao-work-record-phone-2026-05";
+    const order = new Map(PRICE_ITEMS.map((item, index) => [item.name, index]));
+    const price = new Map(PRICE_ITEMS.map((item) => [item.name, Math.round(item.unitPrice * 10)]));
+    const alias = new Map();
+    PRICE_ITEMS.forEach((item) => item.aliases.forEach((name) => alias.set(normalizeKey(name), item.name)));
+
+    const el = {
+      saveState: document.querySelector("#saveState"),
+      amount: document.querySelector("#amount"),
+      quantity: document.querySelector("#quantity"),
+      projects: document.querySelector("#projects"),
+      latest: document.querySelector("#latest"),
+      form: document.querySelector("#entryForm"),
+      date: document.querySelector("#dateInput"),
+      item: document.querySelector("#itemInput"),
+      qty: document.querySelector("#qtyInput"),
+      minus: document.querySelector("#minus"),
+      plus: document.querySelector("#plus"),
+      quick: document.querySelector("#quickList"),
+      search: document.querySelector("#search"),
+      summary: document.querySelector("#summaryList"),
+      daily: document.querySelector("#dailyList"),
+      tabs: document.querySelector(".tabs"),
+      toast: document.querySelector("#toast"),
+      exportJson: document.querySelector("#exportJson"),
+      exportCsv: document.querySelector("#exportCsv"),
+      importJson: document.querySelector("#importJson"),
+    };
+
+    let data = load();
+    let toastTimer = null;
+
+    function normalizeKey(value) {
+      return String(value).trim().replace(/\s+/g, "").toLowerCase();
+    }
+
+    function canonicalName(value) {
+      return alias.get(normalizeKey(value)) || String(value).trim();
+    }
+
+    function money(tenths) {
+      const text = (tenths / 10).toFixed(1);
+      return text.endsWith(".0") ? text.slice(0, -2) : text;
+    }
+
+    function moneyNumber(tenths) {
+      return Number(money(tenths));
+    }
+
+    function todayIso() {
+      const date = new Date();
+      return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+    }
+
+    function label(iso) {
+      const parts = iso.split("-");
+      return Number(parts[1]) + "月" + Number(parts[2]) + "日";
+    }
+
+    function load() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) return normalize(JSON.parse(saved));
+      } catch (error) {}
+      return normalize(JSON.parse(JSON.stringify(INITIAL_DATA)));
+    }
+
+    function normalize(input) {
+      const records = Array.isArray(input.records) ? input.records : [];
+      return {
+        version: 1,
+        year: input.year || INITIAL_DATA.year,
+        month: input.month || INITIAL_DATA.month,
+        records: records
+          .map((record, index) => ({
+            id: String(record.id || Date.now().toString(36) + index),
+            date: String(record.date || ""),
+            item: canonicalName(record.item || ""),
+            quantity: Math.max(1, parseInt(record.quantity || 1, 10)),
+            source: String(record.source || record.item || ""),
+          }))
+          .filter((record) => /^\d{4}-\d{2}-\d{2}$/.test(record.date) && record.item),
+        updatedAt: input.updatedAt || new Date().toISOString(),
+      };
+    }
+
+    function save() {
+      data.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      el.saveState.textContent = "已保存";
+    }
+
+    function summaryRows() {
+      const totals = new Map();
+      data.records.forEach((record) => totals.set(record.item, (totals.get(record.item) || 0) + record.quantity));
+      return [...totals.entries()]
+        .map(([item, quantity]) => {
+          const unit = price.get(item) || 0;
+          return { item, quantity, unit, total: unit * quantity };
+        })
+        .sort((a, b) => (order.get(a.item) ?? 999) - (order.get(b.item) ?? 999) || a.item.localeCompare(b.item, "zh-CN"));
+    }
+
+    function dailyRows() {
+      const grouped = new Map();
+      const sorted = [...data.records].sort((a, b) => a.date.localeCompare(b.date) || (order.get(a.item) ?? 999) - (order.get(b.item) ?? 999));
+      sorted.forEach((record) => {
+        if (!grouped.has(record.date)) grouped.set(record.date, []);
+        grouped.get(record.date).push(record);
+      });
+      return [...grouped.entries()].map(([date, records]) => ({
+        date,
+        records,
+        total: records.reduce((sum, record) => sum + (price.get(record.item) || 0) * record.quantity, 0),
+      }));
+    }
+
+    function totals() {
+      const rows = summaryRows();
+      return {
+        amount: rows.reduce((sum, row) => sum + row.total, 0),
+        quantity: rows.reduce((sum, row) => sum + row.quantity, 0),
+        projects: rows.length,
+        latest: data.records.reduce((max, record) => record.date > max ? record.date : max, ""),
+      };
+    }
+
+    function render() {
+      const total = totals();
+      el.amount.textContent = money(total.amount);
+      el.quantity.textContent = total.quantity;
+      el.projects.textContent = total.projects;
+      el.latest.textContent = total.latest ? label(total.latest) : "-";
+      renderInputs(total.latest);
+      renderQuick();
+      renderSummary();
+      renderDaily();
+    }
+
+    function renderInputs(latest) {
+      el.date.min = data.year + "-" + String(data.month).padStart(2, "0") + "-01";
+      el.date.max = data.year + "-" + String(data.month).padStart(2, "0") + "-31";
+      if (!el.date.value) {
+        const today = todayIso();
+        el.date.value = today.startsWith(data.year + "-" + String(data.month).padStart(2, "0") + "-") ? today : latest || el.date.min;
+      }
+      const current = el.item.value;
+      el.item.innerHTML = PRICE_ITEMS.map((item) => '<option value="' + esc(item.name) + '">' + esc(item.name) + " / " + item.unitPrice + "</option>").join("");
+      if (current && PRICE_ITEMS.some((item) => item.name === current)) el.item.value = current;
+    }
+
+    function renderQuick() {
+      const counts = new Map();
+      data.records.forEach((record) => counts.set(record.item, (counts.get(record.item) || 0) + record.quantity));
+      const items = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([item]) => item);
+      el.quick.innerHTML = items.map((item) => '<button type="button" data-quick="' + esc(item) + '">' + esc(item) + "</button>").join("");
+    }
+
+    function renderSummary() {
+      const query = normalizeKey(el.search.value);
+      const rows = summaryRows().filter((row) => normalizeKey(row.item).includes(query));
+      if (!rows.length) {
+        el.summary.innerHTML = '<div class="empty">没有明细</div>';
+        return;
+      }
+      el.summary.innerHTML =
+        '<div class="summary-row header"><span>项目</span><span class="right">数量</span><span class="right">单价</span><span class="right">总价</span></div>' +
+        rows.map((row) => '<div class="summary-row"><strong>' + esc(row.item) + '</strong><span class="right">' + row.quantity + '</span><span class="right">' + money(row.unit) + '</span><span class="right">' + money(row.total) + '</span></div>').join("");
+    }
+
+    function renderDaily() {
+      const groups = dailyRows();
+      if (!groups.length) {
+        el.daily.innerHTML = '<div class="empty">暂无记录</div>';
+        return;
+      }
+      el.daily.innerHTML = groups.map((group) => {
+        const entries = group.records.map((record) => {
+          const unit = price.get(record.item) || 0;
+          return '<div class="entry" data-id="' + esc(record.id) + '">' +
+            '<div class="entry-title"><strong>' + esc(record.item) + '</strong><span>' + money(unit) + ' x ' + record.quantity + ' = ' + money(unit * record.quantity) + '</span></div>' +
+            '<div class="entry-actions"><input type="number" min="1" step="1" value="' + record.quantity + '" aria-label="' + esc(record.item) + '数量">' +
+            '<div class="entry-buttons"><button class="tiny" type="button" data-action="update">更新</button><button class="tiny danger" type="button" data-action="delete">删除</button></div></div>' +
+            '</div>';
+        }).join("");
+        return '<article class="day"><div class="day-title"><span>' + label(group.date) + '</span><span>' + money(group.total) + '</span></div>' + entries + '</article>';
+      }).join("");
+    }
+
+    function addRecord(date, item, quantity) {
+      const existing = data.records.find((record) => record.date === date && record.item === item);
+      if (existing) existing.quantity += quantity;
+      else data.records.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), date, item, quantity, source: item });
+      data = normalize(data);
+      save();
+      render();
+    }
+
+    function download(filename, type, text) {
+      const blob = new Blob([text], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 800);
+    }
+
+    function csv() {
+      const rows = [["项目", "数量", "单价", "总价"]];
+      summaryRows().forEach((row) => rows.push([row.item, row.quantity, money(row.unit), money(row.total)]));
+      return "\uFEFF" + rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
+    }
+
+    function csvCell(value) {
+      const text = String(value ?? "");
+      return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+    }
+
+    function show(text) {
+      clearTimeout(toastTimer);
+      el.toast.textContent = text;
+      el.toast.classList.add("show");
+      toastTimer = setTimeout(() => el.toast.classList.remove("show"), 1800);
+    }
+
+    function esc(value) {
+      return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+
+    el.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const item = canonicalName(el.item.value);
+      const quantity = parseInt(el.qty.value || "1", 10);
+      if (!price.has(item)) return show("这个项目没有单价");
+      if (!Number.isInteger(quantity) || quantity <= 0) return show("数量要填正整数");
+      addRecord(el.date.value, item, quantity);
+      el.qty.value = 1;
+      show("已保存");
+    });
+
+    el.minus.addEventListener("click", () => el.qty.value = Math.max(1, parseInt(el.qty.value || "1", 10) - 1));
+    el.plus.addEventListener("click", () => el.qty.value = Math.max(1, parseInt(el.qty.value || "1", 10) + 1));
+    el.quick.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-quick]");
+      if (button) el.item.value = button.dataset.quick;
+    });
+    el.search.addEventListener("input", renderSummary);
+    el.tabs.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-view]");
+      if (!button) return;
+      document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab === button));
+      document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === button.dataset.view + "View"));
+    });
+    el.daily.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-action]");
+      if (!button) return;
+      const entry = button.closest(".entry");
+      const id = entry.dataset.id;
+      const record = data.records.find((item) => item.id === id);
+      if (!record) return;
+      if (button.dataset.action === "delete") {
+        data.records = data.records.filter((item) => item.id !== id);
+        save();
+        render();
+        show("已删除");
+      }
+      if (button.dataset.action === "update") {
+        const next = parseInt(entry.querySelector("input").value || "1", 10);
+        if (!Number.isInteger(next) || next <= 0) return show("数量要填正整数");
+        record.quantity = next;
+        save();
+        render();
+        show("已更新");
+      }
+    });
+    el.exportJson.addEventListener("click", () => {
+      download("手工记录备份.json", "application/json;charset=utf-8", JSON.stringify(data, null, 2));
+      show("已导出 JSON");
+    });
+    el.exportCsv.addEventListener("click", () => {
+      download("5月项目明细.csv", "text/csv;charset=utf-8", csv());
+      show("已导出 CSV");
+    });
+    el.importJson.addEventListener("change", async () => {
+      const file = el.importJson.files[0];
+      if (!file) return;
+      try {
+        data = normalize(JSON.parse(await file.text()));
+        save();
+        render();
+        show("已导入");
+      } catch (error) {
+        show("导入失败");
+      } finally {
+        el.importJson.value = "";
+      }
+    });
+
+    render();
+    save();
+  </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("/sw.js");
+      });
+    }
+  </script>
+</body>
+</html>
