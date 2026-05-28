@@ -1,13 +1,14 @@
 const CACHE_NAME = "work-record-v1";
+const BASE = "/work-record-pwa/";
 const ASSETS = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/icons/icon-16x16.png",
-  "/icons/icon-32x32.png",
-  "/icons/icon-180x180.png",
-  "/icons/icon-192x192.png",
-  "/icons/icon-512x512.png"
+  BASE,
+  BASE + "index.html",
+  BASE + "manifest.json",
+  BASE + "icons/icon-16x16.png",
+  BASE + "icons/icon-32x32.png",
+  BASE + "icons/icon-180x180.png",
+  BASE + "icons/icon-192x192.png",
+  BASE + "icons/icon-512x512.png"
 ];
 
 self.addEventListener("install", (event) => {
