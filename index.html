@@ -412,27 +412,62 @@
       if (!fbDb) return;
       if (fbUnsub) fbUnsub();
       const code = getSyncCode();
-      fbUnsub = fbDb.collection("workspaces").doc(code).collection("records")
-        .onSnapshot((snap) => {
-          const cloudRecords = [];
-          snap.forEach((doc) => {
-            const r = doc.data();
-            r.id = doc.id;
-            cloudRecords.push(r);
-          });
-          if (cloudRecords.length > 0 || allRecords.length > 0) {
-            allRecords = mergeRecords(allRecords, cloudRecords);
-            saveLocal();
-            render();
+
+      // First upload local data to cloud, then subscribe
+      const uploadAndListen = async () => {
+        if (allRecords.length > 0) {
+          try {
+            // Upload in batches of 400 to stay under Firestore 500 limit
+            for (let i = 0; i < allRecords.length; i += 400) {
+              const batch = fbDb.batch();
+              const chunk = allRecords.slice(i, i + 400);
+              chunk.forEach((r) => {
+                const ref = fbDb.collection("workspaces").doc(code).collection("records").doc(r.id);
+                batch.set(ref, { ...r, updatedAt: r.updatedAt || new Date().toISOString() }, { merge: true });
+              });
+              await batch.commit();
+            }
+          } catch (e) {
+            console.error("Initial upload error:", e);
           }
-          el.syncState.textContent = "云端已同步";
-          el.syncState.classList.remove("offline");
-          el.syncInfo.textContent = "云同步已连接。同步码: " + code;
-        }, (err) => {
-          console.error("Firestore listen error:", err);
-          el.syncState.textContent = "同步失败";
+        }
+
+        fbUnsub = fbDb.collection("workspaces").doc(code).collection("records")
+          .onSnapshot((snap) => {
+            const cloudRecords = [];
+            snap.forEach((doc) => {
+              const r = doc.data();
+              r.id = doc.id;
+              cloudRecords.push(r);
+            });
+            // Only merge if cloud has data; keep local data if cloud is empty
+            if (cloudRecords.length > 0) {
+              allRecords = mergeRecords(allRecords, cloudRecords);
+              saveLocal();
+            }
+            render();
+            el.syncState.textContent = "云端已同步";
+            el.syncState.classList.remove("offline");
+            el.syncInfo.textContent = "云同步已连接。同步码: " + code;
+          }, (err) => {
+            console.error("Firestore listen error:", err);
+            el.syncState.textContent = "同步失败";
+            el.syncState.classList.add("offline");
+            el.syncInfo.textContent = "云同步失败: " + (err.message || "网络错误") + "。数据仅保存在本机。";
+          });
+      };
+
+      uploadAndListen();
+
+      // Timeout fallback: if still connecting after 8 seconds, show local mode
+      setTimeout(() => {
+        if (el.syncState.textContent === "连接中...") {
+          el.syncState.textContent = "本机保存";
           el.syncState.classList.add("offline");
-        });
+          el.syncInfo.textContent = "云端连接超时，数据仅保存在本机。可能需要科学上网才能使用云同步。";
+          render();
+        }
+      }, 8000);
     }
     function mergeRecords(local, cloud) {
       const map = new Map();
@@ -770,7 +805,6 @@
         localStorage.setItem(FB_CONFIG_KEY, raw);
         if (initFirebase(config)) {
           subscribeCloud();
-          uploadAllToCloud();
           show("Firebase 已连接");
         } else {
           show("Firebase 初始化失败");
