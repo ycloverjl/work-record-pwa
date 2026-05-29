@@ -780,6 +780,16 @@
       }
     });
 
+    /* ========== Firebase config (built-in) ========== */
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyB7veL7Ts1aMi80oBV-f2UKRzRkYqIsKxs",
+      authDomain: "rjlshougong.firebaseapp.com",
+      projectId: "rjlshougong",
+      storageBucket: "rjlshougong.firebasestorage.app",
+      messagingSenderId: "1076003433386",
+      appId: "1:1076003433386:web:458f19d81d82e9c52199d3"
+    };
+
     /* ========== Init ========== */
     (function init() {
       const now = new Date();
@@ -796,19 +806,14 @@
         saveLocal();
       }
 
-      // Try Firebase
-      const fbConfig = getFirebaseConfig();
-      if (fbConfig) {
-        el.firebaseConfigInput.value = JSON.stringify(fbConfig);
-        if (initFirebase(fbConfig)) {
-          subscribeCloud();
-        } else {
-          el.syncState.textContent = "本机保存";
-          el.syncInfo.textContent = "Firebase 配置有误，数据仅保存在本机。";
-        }
+      // Try Firebase - use saved config or built-in default
+      let fbConfig = getFirebaseConfig() || DEFAULT_FIREBASE_CONFIG;
+      el.firebaseConfigInput.value = JSON.stringify(fbConfig);
+      if (initFirebase(fbConfig)) {
+        subscribeCloud();
       } else {
         el.syncState.textContent = "本机保存";
-        el.syncInfo.textContent = "未配置 Firebase，数据仅保存在本机浏览器。请在下方输入 Firebase 配置来开启云同步。";
+        el.syncInfo.textContent = "Firebase 初始化失败，数据仅保存在本机。";
       }
 
       // Show sync code if exists
