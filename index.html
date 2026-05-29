@@ -14,315 +14,133 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7f4ee;
-      --surface: #fffdf8;
-      --ink: #262521;
-      --muted: #746f66;
-      --line: #ded7ca;
-      --green: #256f5c;
-      --green-deep: #174d41;
-      --coral: #b94f3f;
-      --blue: #416c9b;
-      --shadow: 0 10px 28px rgba(38, 37, 33, .08);
+      --bg: #f7f4ee; --surface: #fffdf8; --ink: #262521; --muted: #746f66;
+      --line: #ded7ca; --green: #256f5c; --green-deep: #174d41; --coral: #b94f3f;
+      --blue: #416c9b; --shadow: 0 10px 28px rgba(38,37,33,.08);
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
-      line-height: 1.45;
-    }
-    button, input, select { font: inherit; }
-    button { cursor: pointer; }
-    .app {
-      width: min(100% - 22px, 760px);
-      margin: 0 auto;
-      padding: calc(16px + env(safe-area-inset-top)) 0 calc(30px + env(safe-area-inset-bottom));
-    }
-    .top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .eyebrow {
-      margin: 0 0 2px;
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 800;
-    }
-    h1, h2 { margin: 0; letter-spacing: 0; }
-    h1 { font-size: 34px; line-height: 1.05; }
-    h2 { font-size: 18px; }
-    .pill {
-      border: 1px solid rgba(37, 111, 92, .24);
-      border-radius: 999px;
-      background: #edf7f0;
-      color: var(--green-deep);
-      padding: 8px 11px;
-      font-size: 13px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .metric {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--surface);
-      padding: 12px;
-      box-shadow: var(--shadow);
-      min-height: 84px;
-    }
-    .metric span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .metric strong {
-      display: block;
-      margin-top: 7px;
-      font-size: 25px;
-      line-height: 1.08;
-    }
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      border-bottom: 1px solid var(--line);
-      padding: 13px;
-    }
-    .form {
-      display: grid;
-      gap: 11px;
-      padding: 13px;
-    }
-    label span {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-    }
-    input, select {
-      width: 100%;
-      min-height: 46px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      color: var(--ink);
-      padding: 0 12px;
-    }
-    input:focus, select:focus, button:focus-visible {
-      outline: 3px solid rgba(65, 108, 155, .24);
-      outline-offset: 1px;
-    }
-    .stepper {
-      display: grid;
-      grid-template-columns: 48px minmax(0, 1fr) 48px;
-      gap: 8px;
-    }
-    .icon-btn {
-      min-height: 46px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #f2eee5;
-      color: var(--ink);
-      font-size: 20px;
-      font-weight: 900;
-    }
-    .primary, .secondary, .danger, .tiny {
-      min-height: 42px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      padding: 0 13px;
-      font-weight: 850;
-    }
-    .primary {
-      background: var(--green);
-      color: white;
-      min-height: 48px;
-      font-size: 17px;
-    }
-    .secondary, .tiny {
-      border-color: var(--line);
-      background: #fff;
-      color: var(--ink);
-    }
-    .danger {
-      border-color: rgba(185, 79, 63, .36);
-      background: #fff7f4;
-      color: var(--coral);
-    }
-    .quick {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 0 13px 13px;
-    }
-    .quick button {
-      border: 1px solid rgba(37, 111, 92, .24);
-      border-radius: 999px;
-      background: #eff7f0;
-      color: var(--green-deep);
-      padding: 8px 11px;
-      font-size: 13px;
-      font-weight: 800;
-    }
-    .tabs {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 7px;
-      background: rgba(247, 244, 238, .94);
-      padding: 7px 0;
-      backdrop-filter: blur(10px);
-    }
-    .tab {
-      min-height: 40px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--muted);
-      font-weight: 850;
-    }
-    .tab.active {
-      background: var(--green);
-      color: #fff;
-      border-color: var(--green);
-    }
-    .view { display: none; }
-    .view.active { display: block; }
-    .summary-row, .price-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) 62px 72px 82px;
-      gap: 8px;
-      align-items: center;
-      padding: 11px 13px;
-      border-bottom: 1px solid var(--line);
-    }
-    .summary-row.header {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      background: #fbf8f1;
-    }
-    .summary-row:last-child, .price-row:last-child { border-bottom: 0; }
-    .right { text-align: right; }
-    .day {
-      border-bottom: 1px solid var(--line);
-    }
-    .day:last-child { border-bottom: 0; }
-    .day-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 11px 13px;
-      color: var(--blue);
-      font-weight: 900;
-      background: #fbf8f1;
-    }
-    .entry {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 76px;
-      gap: 8px;
-      padding: 11px 13px;
-      border-top: 1px solid #eee7dc;
-    }
-    .entry-title strong, .entry-title span {
-      display: block;
-    }
-    .entry-title span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .entry-actions {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 7px;
-    }
-    .entry-actions input {
-      min-height: 38px;
-      text-align: center;
-    }
-    .entry-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-    }
-    .tiny {
-      min-height: 34px;
-      padding: 0 8px;
-      font-size: 13px;
-    }
-    .tools {
-      display: grid;
-      gap: 9px;
-      padding: 13px;
-    }
-    .tools-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-    }
-    .hint {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .search {
-      max-width: 160px;
-      min-height: 38px;
-    }
-    .empty {
-      padding: 22px;
-      color: var(--muted);
-      text-align: center;
-    }
-    .toast {
-      position: fixed;
-      left: 16px;
-      right: 16px;
-      bottom: calc(16px + env(safe-area-inset-bottom));
-      border-radius: 8px;
-      background: var(--ink);
-      color: white;
-      padding: 12px 14px;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity .18s ease, transform .18s ease;
-      pointer-events: none;
-      text-align: center;
-      z-index: 5;
-    }
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    @media (min-width: 680px) {
-      .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .entry { grid-template-columns: minmax(0, 1fr) 230px; }
-      .entry-actions { grid-template-columns: 76px 1fr; }
-      .entry-buttons { grid-template-columns: 1fr 1fr; }
+    body { margin:0; background:var(--bg); color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif; line-height:1.45; }
+    button,input,select { font:inherit; }
+    button { cursor:pointer; }
+    .app { width:min(100% - 22px,760px); margin:0 auto;
+      padding:calc(16px + env(safe-area-inset-top)) 0 calc(30px + env(safe-area-inset-bottom)); }
+    .top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .eyebrow { margin:0 0 2px; color:var(--green); font-size:12px; font-weight:800; }
+    h1,h2 { margin:0; letter-spacing:0; }
+    h1 { font-size:34px; line-height:1.05; }
+    h2 { font-size:18px; }
+    .pill { border:1px solid rgba(37,111,92,.24); border-radius:999px; background:#edf7f0;
+      color:var(--green-deep); padding:8px 11px; font-size:13px; font-weight:800; white-space:nowrap; }
+    .pill.offline { background:#fff7f4; color:var(--coral); border-color:rgba(185,79,63,.24); }
+
+    /* Month selector */
+    .month-bar { display:flex; align-items:center; justify-content:space-between; gap:8px;
+      margin-bottom:12px; }
+    .month-bar h2 { font-size:20px; color:var(--blue); }
+    .month-nav { display:flex; gap:6px; }
+    .month-nav button { min-height:36px; min-width:36px; border:1px solid var(--line); border-radius:8px;
+      background:#fff; color:var(--ink); font-size:16px; font-weight:900; }
+    .month-nav button:disabled { opacity:.35; cursor:default; }
+
+    .metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-bottom:12px; }
+    .metric { border:1px solid var(--line); border-radius:8px; background:var(--surface);
+      padding:12px; box-shadow:var(--shadow); min-height:84px; }
+    .metric span { display:block; color:var(--muted); font-size:12px; font-weight:700; }
+    .metric strong { display:block; margin-top:7px; font-size:25px; line-height:1.08; }
+    .panel { border:1px solid var(--line); border-radius:8px; background:var(--surface);
+      box-shadow:var(--shadow); overflow:hidden; margin-bottom:12px; }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom:1px solid var(--line); padding:13px; }
+    .form { display:grid; gap:11px; padding:13px; }
+    label span { display:block; margin-bottom:6px; color:var(--muted); font-size:13px; font-weight:800; }
+    input,select { width:100%; min-height:46px; border:1px solid var(--line); border-radius:8px;
+      background:#fff; color:var(--ink); padding:0 12px; }
+    input:focus,select:focus,button:focus-visible {
+      outline:3px solid rgba(65,108,155,.24); outline-offset:1px; }
+    .stepper { display:grid; grid-template-columns:48px minmax(0,1fr) 48px; gap:8px; }
+    .icon-btn { min-height:46px; border:1px solid var(--line); border-radius:8px;
+      background:#f2eee5; color:var(--ink); font-size:20px; font-weight:900; }
+    .primary,.secondary,.danger,.tiny { min-height:42px; border-radius:8px; border:1px solid transparent;
+      padding:0 13px; font-weight:850; }
+    .primary { background:var(--green); color:white; min-height:48px; font-size:17px; }
+    .secondary,.tiny { border-color:var(--line); background:#fff; color:var(--ink); }
+    .danger { border-color:rgba(185,79,63,.36); background:#fff7f4; color:var(--coral); }
+    .quick { display:flex; flex-wrap:wrap; gap:8px; padding:0 13px 13px; }
+    .quick button { border:1px solid rgba(37,111,92,.24); border-radius:999px; background:#eff7f0;
+      color:var(--green-deep); padding:8px 11px; font-size:13px; font-weight:800; }
+    .tabs { position:sticky; top:0; z-index:2; display:grid; grid-template-columns:repeat(5,1fr);
+      gap:5px; background:rgba(247,244,238,.94); padding:7px 0; backdrop-filter:blur(10px); }
+    .tab { min-height:38px; border:1px solid var(--line); border-radius:999px; background:#fff;
+      color:var(--muted); font-weight:850; font-size:13px; padding:0 6px; }
+    .tab.active { background:var(--green); color:#fff; border-color:var(--green); }
+    .view { display:none; }
+    .view.active { display:block; }
+    .summary-row,.price-row { display:grid;
+      grid-template-columns:minmax(0,1.15fr) 62px 72px 82px; gap:8px; align-items:center;
+      padding:11px 13px; border-bottom:1px solid var(--line); }
+    .summary-row.header { color:var(--muted); font-size:12px; font-weight:900; background:#fbf8f1; }
+    .summary-row:last-child,.price-row:last-child { border-bottom:0; }
+    .right { text-align:right; }
+    .day { border-bottom:1px solid var(--line); }
+    .day:last-child { border-bottom:0; }
+    .day-title { display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:11px 13px; color:var(--blue); font-weight:900; background:#fbf8f1; }
+    .entry { display:grid; grid-template-columns:minmax(0,1fr) 76px; gap:8px;
+      padding:11px 13px; border-top:1px solid #eee7dc; }
+    .entry-title strong,.entry-title span { display:block; }
+    .entry-title span { color:var(--muted); font-size:12px; }
+    .entry-actions { display:grid; grid-template-columns:1fr; gap:7px; }
+    .entry-actions input { min-height:38px; text-align:center; }
+    .entry-buttons { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+    .tiny { min-height:34px; padding:0 8px; font-size:13px; }
+    .tools { display:grid; gap:9px; padding:13px; }
+    .tools-row { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .hint { margin:0; color:var(--muted); font-size:13px; }
+    .search { max-width:160px; min-height:38px; }
+    .empty { padding:22px; color:var(--muted); text-align:center; }
+
+    /* Salary slip */
+    .slip-card { border:1px solid var(--line); border-radius:8px; background:var(--surface);
+      padding:16px; margin:13px; }
+    .slip-header { text-align:center; margin-bottom:14px; }
+    .slip-header h3 { margin:0; font-size:20px; color:var(--green-deep); }
+    .slip-header p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+    .slip-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+    .slip-stat { background:#f7f4ee; border-radius:8px; padding:10px; text-align:center; }
+    .slip-stat span { display:block; color:var(--muted); font-size:12px; font-weight:700; }
+    .slip-stat strong { display:block; font-size:22px; color:var(--green); margin-top:4px; }
+    .slip-table { width:100%; border-collapse:collapse; margin-bottom:14px; font-size:14px; }
+    .slip-table th { background:#f7f4ee; color:var(--muted); font-size:12px; font-weight:800;
+      padding:8px; text-align:left; border-bottom:2px solid var(--line); }
+    .slip-table th:not(:first-child) { text-align:right; }
+    .slip-table td { padding:7px 8px; border-bottom:1px solid #eee7dc; }
+    .slip-table td:not(:first-child) { text-align:right; }
+    .slip-total { display:flex; justify-content:space-between; align-items:center;
+      padding:12px 0; border-top:2px solid var(--green); margin-top:4px; }
+    .slip-total span { font-size:15px; font-weight:800; color:var(--ink); }
+    .slip-total strong { font-size:26px; color:var(--green); }
+    .slip-footer { text-align:center; color:var(--muted); font-size:12px; margin-top:8px; }
+
+    /* Hidden export area */
+    .slip-export { position:absolute; left:-9999px; top:0; width:420px; background:#fffdf8;
+      padding:24px; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif; }
+    .slip-export .slip-header h3 { font-size:24px; }
+    .slip-export .slip-stat strong { font-size:26px; }
+    .slip-export .slip-total strong { font-size:32px; }
+
+    .toast { position:fixed; left:16px; right:16px; bottom:calc(16px + env(safe-area-inset-bottom));
+      border-radius:8px; background:var(--ink); color:white; padding:12px 14px;
+      opacity:0; transform:translateY(8px); transition:opacity .18s ease, transform .18s ease;
+      pointer-events:none; text-align:center; z-index:5; }
+    .toast.show { opacity:1; transform:translateY(0); }
+    @media (min-width:680px) {
+      .metrics { grid-template-columns:repeat(4,minmax(0,1fr)); }
+      .entry { grid-template-columns:minmax(0,1fr) 230px; }
+      .entry-actions { grid-template-columns:76px 1fr; }
+      .entry-buttons { grid-template-columns:1fr 1fr; }
+      .tabs { gap:7px; }
+      .tab { font-size:14px; min-height:40px; padding:0 10px; }
     }
   </style>
 </head>
@@ -330,17 +148,27 @@
   <main class="app">
     <header class="top">
       <div>
-        <p class="eyebrow">手机独立版</p>
+        <p class="eyebrow">云端同步版</p>
         <h1>手工记录</h1>
       </div>
-      <div class="pill" id="saveState">本机保存</div>
+      <div class="pill" id="syncState">连接中...</div>
     </header>
 
+    <div class="month-bar">
+      <div class="month-nav">
+        <button type="button" id="prevMonth" title="上月">&lsaquo;</button>
+      </div>
+      <h2 id="monthTitle">2026年5月</h2>
+      <div class="month-nav">
+        <button type="button" id="nextMonth" title="下月">&rsaquo;</button>
+      </div>
+    </div>
+
     <section class="metrics" aria-label="汇总">
-      <article class="metric"><span>总手工费</span><strong id="amount">0</strong></article>
-      <article class="metric"><span>总数量</span><strong id="quantity">0</strong></article>
+      <article class="metric"><span>本月手工费</span><strong id="amount">0</strong></article>
+      <article class="metric"><span>本月数量</span><strong id="quantity">0</strong></article>
       <article class="metric"><span>项目数</span><strong id="projects">0</strong></article>
-      <article class="metric"><span>最近记录</span><strong id="latest">-</strong></article>
+      <article class="metric"><span>工作天数</span><strong id="workdays">0</strong></article>
     </section>
 
     <section class="panel">
@@ -364,7 +192,9 @@
     <nav class="tabs" aria-label="切换视图">
       <button class="tab active" type="button" data-view="summary">汇总</button>
       <button class="tab" type="button" data-view="daily">每日</button>
+      <button class="tab" type="button" data-view="slip">工资单</button>
       <button class="tab" type="button" data-view="backup">备份</button>
+      <button class="tab" type="button" data-view="settings">设置</button>
     </nav>
 
     <section class="panel view active" id="summaryView">
@@ -380,10 +210,18 @@
       <div id="dailyList"></div>
     </section>
 
+    <section class="panel view" id="slipView">
+      <div class="panel-head"><h2>月度工资单</h2></div>
+      <div class="slip-card" id="slipCard"></div>
+      <div style="padding:0 13px 13px; display:grid; gap:9px;">
+        <button class="primary" type="button" id="exportSlip">导出工资单图片</button>
+      </div>
+    </section>
+
     <section class="panel view" id="backupView">
       <div class="panel-head"><h2>备份和恢复</h2></div>
       <div class="tools">
-        <p class="hint">数据只保存在当前手机浏览器里。建议隔几天导出一次 JSON 备份；CSV 可以直接发给自己或用表格软件打开。</p>
+        <p class="hint">数据会自动同步到云端。建议隔几天导出一次 JSON 备份以防万一。</p>
         <div class="tools-row">
           <button class="secondary" type="button" id="exportJson">导出 JSON</button>
           <button class="secondary" type="button" id="exportCsv">导出 CSV</button>
@@ -394,235 +232,77 @@
         </label>
       </div>
     </section>
+
+    <section class="panel view" id="settingsView">
+      <div class="panel-head"><h2>云同步设置</h2></div>
+      <div class="tools">
+        <p class="hint" id="syncInfo">云同步状态加载中...</p>
+        <p class="hint">同步码用于多设备共享数据。在第一台设备上生成同步码，然后在其他设备上输入同一个同步码即可同步。</p>
+        <div class="tools-row">
+          <button class="secondary" type="button" id="genSyncCode">生成同步码</button>
+          <button class="secondary" type="button" id="joinSyncCode">加入同步</button>
+        </div>
+        <p class="hint" id="currentSyncCode" style="font-weight:800; font-size:16px; color:var(--green);"></p>
+        <hr style="border:0; border-top:1px solid var(--line); margin:8px 0;">
+        <p class="hint">如果没有 Firebase 配置，数据仅保存在本机浏览器中。配置 Firebase 后可实现跨设备云同步。</p>
+        <label>
+          <span>Firebase 配置 (JSON)</span>
+          <input id="firebaseConfigInput" type="text" placeholder='{"apiKey":"...","projectId":"..."}'>
+        </label>
+        <button class="secondary" type="button" id="saveFirebaseConfig">保存 Firebase 配置</button>
+      </div>
+    </section>
   </main>
   <div class="toast" id="toast"></div>
+
+  <!-- Hidden salary slip for image export -->
+  <div class="slip-export" id="slipExport"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
     const INITIAL_DATA = {"version":1,"year":2026,"month":5,"records":[{"id":"2026-05-01-000","date":"2026-05-01","item":"40头疗","quantity":3,"source":"40头"},{"id":"2026-05-01-002","date":"2026-05-01","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-01-001","date":"2026-05-01","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-02-001","date":"2026-05-02","item":"30采耳","quantity":2,"source":"30采耳"},{"id":"2026-05-02-004","date":"2026-05-02","item":"40耳浴","quantity":1,"source":"40耳浴"},{"id":"2026-05-02-002","date":"2026-05-02","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-02-000","date":"2026-05-02","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-02-003","date":"2026-05-02","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-03-002","date":"2026-05-03","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-03-000","date":"2026-05-03","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-03-001","date":"2026-05-03","item":"60面护","quantity":1,"source":"60面"},{"id":"2026-05-04-005","date":"2026-05-04","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-04-002","date":"2026-05-04","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-04-001","date":"2026-05-04","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-04-000","date":"2026-05-04","item":"80头疗","quantity":2,"source":"80头"},{"id":"2026-05-04-003","date":"2026-05-04","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-04-004","date":"2026-05-04","item":"60面护","quantity":1,"source":"60面"},{"id":"2026-05-05-002","date":"2026-05-05","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-05-001","date":"2026-05-05","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-05-000","date":"2026-05-05","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-06-002","date":"2026-05-06","item":"30头颈肩","quantity":2,"source":"30肩颈"},{"id":"2026-05-06-001","date":"2026-05-06","item":"40头疗","quantity":3,"source":"40头"},{"id":"2026-05-06-000","date":"2026-05-06","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-07-000","date":"2026-05-07","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-08-000","date":"2026-05-08","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-09-002","date":"2026-05-09","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-09-001","date":"2026-05-09","item":"40头疗","quantity":3,"source":"40头"},{"id":"2026-05-09-000","date":"2026-05-09","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-10-002","date":"2026-05-10","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-10-001","date":"2026-05-10","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-10-000","date":"2026-05-10","item":"60精油","quantity":1,"source":"60精油"},{"id":"2026-05-11-001","date":"2026-05-11","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-11-003","date":"2026-05-11","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-11-000","date":"2026-05-11","item":"60头疗","quantity":5,"source":"60头"},{"id":"2026-05-11-002","date":"2026-05-11","item":"70头疗","quantity":1,"source":"70头"},{"id":"2026-05-12-001","date":"2026-05-12","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-12-000","date":"2026-05-12","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-13-001","date":"2026-05-13","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-13-000","date":"2026-05-13","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-14-001","date":"2026-05-14","item":"30采耳","quantity":2,"source":"30采耳"},{"id":"2026-05-14-002","date":"2026-05-14","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-14-000","date":"2026-05-14","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-15-003","date":"2026-05-15","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-15-000","date":"2026-05-15","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-15-002","date":"2026-05-15","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-15-001","date":"2026-05-15","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-16-001","date":"2026-05-16","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-16-000","date":"2026-05-16","item":"60头疗","quantity":6,"source":"60头"},{"id":"2026-05-17-004","date":"2026-05-17","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-17-003","date":"2026-05-17","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-17-001","date":"2026-05-17","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-17-002","date":"2026-05-17","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-17-000","date":"2026-05-17","item":"45精油","quantity":1,"source":"45精油"},{"id":"2026-05-18-002","date":"2026-05-18","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-18-004","date":"2026-05-18","item":"30腰背部按摩","quantity":1,"source":"30腰背"},{"id":"2026-05-18-003","date":"2026-05-18","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-18-001","date":"2026-05-18","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-18-005","date":"2026-05-18","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-18-000","date":"2026-05-18","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-19-002","date":"2026-05-19","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-19-000","date":"2026-05-19","item":"60头疗","quantity":3,"source":"60头"},{"id":"2026-05-19-001","date":"2026-05-19","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-20-001","date":"2026-05-20","item":"30采耳","quantity":1,"source":"30采耳"},{"id":"2026-05-20-000","date":"2026-05-20","item":"60头疗","quantity":4,"source":"60头"},{"id":"2026-05-20-002","date":"2026-05-20","item":"80头疗","quantity":2,"source":"80头"},{"id":"2026-05-23-005","date":"2026-05-23","item":"30头颈肩","quantity":1,"source":"30肩颈"},{"id":"2026-05-23-003","date":"2026-05-23","item":"30腰背部按摩","quantity":1,"source":"30腰背"},{"id":"2026-05-23-002","date":"2026-05-23","item":"30采耳","quantity":2,"source":"30采耳"},{"id":"2026-05-23-001","date":"2026-05-23","item":"40头疗","quantity":2,"source":"40头"},{"id":"2026-05-23-000","date":"2026-05-23","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-23-004","date":"2026-05-23","item":"80头疗","quantity":1,"source":"80头"},{"id":"2026-05-24-001","date":"2026-05-24","item":"60头疗","quantity":2,"source":"60头"},{"id":"2026-05-24-000","date":"2026-05-24","item":"45精油","quantity":2,"source":"45精油"},{"id":"2026-05-25-002","date":"2026-05-25","item":"40头疗","quantity":1,"source":"40头"},{"id":"2026-05-25-001","date":"2026-05-25","item":"60头疗","quantity":1,"source":"60头"},{"id":"2026-05-25-000","date":"2026-05-25","item":"70头疗","quantity":1,"source":"70头"},{"id":"2026-05-25-003","date":"2026-05-25","item":"80头疗","quantity":1,"source":"80头"}],"createdAt":"2026-05-25T14:49:03.600Z"};
     const PRICE_ITEMS = [{"name":"30头颈肩","unitPrice":31,"aliases":["30头颈肩","30肩颈"]},{"name":"30腰背部按摩","unitPrice":31,"aliases":["30腰背部按摩","30腰背"]},{"name":"30min头部理筋","unitPrice":20.5,"aliases":["30min头部理筋","30头部理筋"]},{"name":"30min眼部理筋","unitPrice":20.5,"aliases":["30min眼部理筋","30眼部理筋"]},{"name":"30采耳","unitPrice":20.5,"aliases":["30采耳"]},{"name":"40耳浴","unitPrice":27.5,"aliases":["40耳浴"]},{"name":"40头疗","unitPrice":20.5,"aliases":["40头疗","40头"]},{"name":"60头疗","unitPrice":27.5,"aliases":["60头疗","60头"]},{"name":"70头疗","unitPrice":34.9,"aliases":["70头疗","70头"]},{"name":"80头疗","unitPrice":38,"aliases":["80头疗","80头"]},{"name":"40腿部精油","unitPrice":34.5,"aliases":["40腿部精油","40腿精油"]},{"name":"45精油","unitPrice":38,"aliases":["45精油"]},{"name":"60精油","unitPrice":45,"aliases":["60精油"]},{"name":"90精油","unitPrice":69.5,"aliases":["90精油"]},{"name":"60颈肩腰背通","unitPrice":59,"aliases":["60颈肩腰背通"]},{"name":"60面护","unitPrice":31,"aliases":["60面护","60面"]},{"name":"50透皮熏蒸头疗","unitPrice":30,"aliases":["50透皮熏蒸头疗"]},{"name":"20快洗","unitPrice":7,"aliases":["20快洗"]},{"name":"50透皮熏蒸","unitPrice":40,"aliases":["50透皮熏蒸"]},{"name":"50头疗","unitPrice":15,"aliases":["50头疗","50头"]}];
   </script>
   <script>
-    const STORAGE_KEY = "lanbao-work-record-phone-2026-05";
-    const order = new Map(PRICE_ITEMS.map((item, index) => [item.name, index]));
-    const price = new Map(PRICE_ITEMS.map((item) => [item.name, Math.round(item.unitPrice * 10)]));
-    const alias = new Map();
-    PRICE_ITEMS.forEach((item) => item.aliases.forEach((name) => alias.set(normalizeKey(name), item.name)));
+    /* ========== Core setup ========== */
+    const SYNC_KEY = "work-record-sync-code";
+    const FB_CONFIG_KEY = "work-record-fb-config";
+    const LOCAL_DATA_PREFIX = "work-record-data-";
 
-    const el = {
-      saveState: document.querySelector("#saveState"),
-      amount: document.querySelector("#amount"),
-      quantity: document.querySelector("#quantity"),
-      projects: document.querySelector("#projects"),
-      latest: document.querySelector("#latest"),
-      form: document.querySelector("#entryForm"),
-      date: document.querySelector("#dateInput"),
-      item: document.querySelector("#itemInput"),
-      qty: document.querySelector("#qtyInput"),
-      minus: document.querySelector("#minus"),
-      plus: document.querySelector("#plus"),
-      quick: document.querySelector("#quickList"),
-      search: document.querySelector("#search"),
-      summary: document.querySelector("#summaryList"),
-      daily: document.querySelector("#dailyList"),
-      tabs: document.querySelector(".tabs"),
-      toast: document.querySelector("#toast"),
-      exportJson: document.querySelector("#exportJson"),
-      exportCsv: document.querySelector("#exportCsv"),
-      importJson: document.querySelector("#importJson"),
-    };
+    const order = new Map(PRICE_ITEMS.map((p, i) => [p.name, i]));
+    const priceMap = new Map(PRICE_ITEMS.map((p) => [p.name, Math.round(p.unitPrice * 10)]));
+    const aliasMap = new Map();
+    PRICE_ITEMS.forEach((p) => p.aliases.forEach((a) => aliasMap.set(normKey(a), p.name)));
 
-    let data = load();
+    const el = {};
+    "syncState monthTitle prevMonth nextMonth amount quantity projects workdays form date item qty minus plus quick search summary daily tabs toast exportJson exportCsv importJson slipCard exportSlip syncInfo genSyncCode joinSyncCode currentSyncCode firebaseConfigInput saveFirebaseConfig slipExport".split(" ").forEach((id) => {
+      el[id] = document.getElementById(id);
+    });
+
+    let allRecords = [];   // all records across months
+    let viewYear, viewMonth; // current view month
+    let fbApp = null, fbDb = null, fbUnsub = null;
     let toastTimer = null;
+    let isCloudMode = false;
 
-    function normalizeKey(value) {
-      return String(value).trim().replace(/\s+/g, "").toLowerCase();
-    }
-
-    function canonicalName(value) {
-      return alias.get(normalizeKey(value)) || String(value).trim();
-    }
-
-    function money(tenths) {
-      const text = (tenths / 10).toFixed(1);
-      return text.endsWith(".0") ? text.slice(0, -2) : text;
-    }
-
-    function moneyNumber(tenths) {
-      return Number(money(tenths));
-    }
-
+    /* ========== Utility ========== */
+    function normKey(v) { return String(v).trim().replace(/\s+/g, "").toLowerCase(); }
+    function canonName(v) { return aliasMap.get(normKey(v)) || String(v).trim(); }
+    function money(t) { const s = (t / 10).toFixed(1); return s.endsWith(".0") ? s.slice(0, -2) : s; }
     function todayIso() {
-      const date = new Date();
-      return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+      const d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     }
-
-    function label(iso) {
-      const parts = iso.split("-");
-      return Number(parts[1]) + "月" + Number(parts[2]) + "日";
+    function monthKey(y, m) { return y + "-" + String(m).padStart(2, "0"); }
+    function labelMonth(y, m) { return y + "年" + m + "月"; }
+    function labelDate(iso) { const p = iso.split("-"); return Number(p[1]) + "月" + Number(p[2]) + "日"; }
+    function esc(v) {
+      return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
     }
-
-    function load() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return normalize(JSON.parse(saved));
-      } catch (error) {}
-      return normalize(JSON.parse(JSON.stringify(INITIAL_DATA)));
-    }
-
-    function normalize(input) {
-      const records = Array.isArray(input.records) ? input.records : [];
-      return {
-        version: 1,
-        year: input.year || INITIAL_DATA.year,
-        month: input.month || INITIAL_DATA.month,
-        records: records
-          .map((record, index) => ({
-            id: String(record.id || Date.now().toString(36) + index),
-            date: String(record.date || ""),
-            item: canonicalName(record.item || ""),
-            quantity: Math.max(1, parseInt(record.quantity || 1, 10)),
-            source: String(record.source || record.item || ""),
-          }))
-          .filter((record) => /^\d{4}-\d{2}-\d{2}$/.test(record.date) && record.item),
-        updatedAt: input.updatedAt || new Date().toISOString(),
-      };
-    }
-
-    function save() {
-      data.updatedAt = new Date().toISOString();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      el.saveState.textContent = "已保存";
-    }
-
-    function summaryRows() {
-      const totals = new Map();
-      data.records.forEach((record) => totals.set(record.item, (totals.get(record.item) || 0) + record.quantity));
-      return [...totals.entries()]
-        .map(([item, quantity]) => {
-          const unit = price.get(item) || 0;
-          return { item, quantity, unit, total: unit * quantity };
-        })
-        .sort((a, b) => (order.get(a.item) ?? 999) - (order.get(b.item) ?? 999) || a.item.localeCompare(b.item, "zh-CN"));
-    }
-
-    function dailyRows() {
-      const grouped = new Map();
-      const sorted = [...data.records].sort((a, b) => a.date.localeCompare(b.date) || (order.get(a.item) ?? 999) - (order.get(b.item) ?? 999));
-      sorted.forEach((record) => {
-        if (!grouped.has(record.date)) grouped.set(record.date, []);
-        grouped.get(record.date).push(record);
-      });
-      return [...grouped.entries()].map(([date, records]) => ({
-        date,
-        records,
-        total: records.reduce((sum, record) => sum + (price.get(record.item) || 0) * record.quantity, 0),
-      }));
-    }
-
-    function totals() {
-      const rows = summaryRows();
-      return {
-        amount: rows.reduce((sum, row) => sum + row.total, 0),
-        quantity: rows.reduce((sum, row) => sum + row.quantity, 0),
-        projects: rows.length,
-        latest: data.records.reduce((max, record) => record.date > max ? record.date : max, ""),
-      };
-    }
-
-    function render() {
-      const total = totals();
-      el.amount.textContent = money(total.amount);
-      el.quantity.textContent = total.quantity;
-      el.projects.textContent = total.projects;
-      el.latest.textContent = total.latest ? label(total.latest) : "-";
-      renderInputs(total.latest);
-      renderQuick();
-      renderSummary();
-      renderDaily();
-    }
-
-    function renderInputs(latest) {
-      el.date.min = data.year + "-" + String(data.month).padStart(2, "0") + "-01";
-      el.date.max = data.year + "-" + String(data.month).padStart(2, "0") + "-31";
-      if (!el.date.value) {
-        const today = todayIso();
-        el.date.value = today.startsWith(data.year + "-" + String(data.month).padStart(2, "0") + "-") ? today : latest || el.date.min;
-      }
-      const current = el.item.value;
-      el.item.innerHTML = PRICE_ITEMS.map((item) => '<option value="' + esc(item.name) + '">' + esc(item.name) + " / " + item.unitPrice + "</option>").join("");
-      if (current && PRICE_ITEMS.some((item) => item.name === current)) el.item.value = current;
-    }
-
-    function renderQuick() {
-      const counts = new Map();
-      data.records.forEach((record) => counts.set(record.item, (counts.get(record.item) || 0) + record.quantity));
-      const items = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([item]) => item);
-      el.quick.innerHTML = items.map((item) => '<button type="button" data-quick="' + esc(item) + '">' + esc(item) + "</button>").join("");
-    }
-
-    function renderSummary() {
-      const query = normalizeKey(el.search.value);
-      const rows = summaryRows().filter((row) => normalizeKey(row.item).includes(query));
-      if (!rows.length) {
-        el.summary.innerHTML = '<div class="empty">没有明细</div>';
-        return;
-      }
-      el.summary.innerHTML =
-        '<div class="summary-row header"><span>项目</span><span class="right">数量</span><span class="right">单价</span><span class="right">总价</span></div>' +
-        rows.map((row) => '<div class="summary-row"><strong>' + esc(row.item) + '</strong><span class="right">' + row.quantity + '</span><span class="right">' + money(row.unit) + '</span><span class="right">' + money(row.total) + '</span></div>').join("");
-    }
-
-    function renderDaily() {
-      const groups = dailyRows();
-      if (!groups.length) {
-        el.daily.innerHTML = '<div class="empty">暂无记录</div>';
-        return;
-      }
-      el.daily.innerHTML = groups.map((group) => {
-        const entries = group.records.map((record) => {
-          const unit = price.get(record.item) || 0;
-          return '<div class="entry" data-id="' + esc(record.id) + '">' +
-            '<div class="entry-title"><strong>' + esc(record.item) + '</strong><span>' + money(unit) + ' x ' + record.quantity + ' = ' + money(unit * record.quantity) + '</span></div>' +
-            '<div class="entry-actions"><input type="number" min="1" step="1" value="' + record.quantity + '" aria-label="' + esc(record.item) + '数量">' +
-            '<div class="entry-buttons"><button class="tiny" type="button" data-action="update">更新</button><button class="tiny danger" type="button" data-action="delete">删除</button></div></div>' +
-            '</div>';
-        }).join("");
-        return '<article class="day"><div class="day-title"><span>' + label(group.date) + '</span><span>' + money(group.total) + '</span></div>' + entries + '</article>';
-      }).join("");
-    }
-
-    function addRecord(date, item, quantity) {
-      const existing = data.records.find((record) => record.date === date && record.item === item);
-      if (existing) existing.quantity += quantity;
-      else data.records.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8), date, item, quantity, source: item });
-      data = normalize(data);
-      save();
-      render();
-    }
-
-    function download(filename, type, text) {
-      const blob = new Blob([text], { type });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 800);
-    }
-
-    function csv() {
-      const rows = [["项目", "数量", "单价", "总价"]];
-      summaryRows().forEach((row) => rows.push([row.item, row.quantity, money(row.unit), money(row.total)]));
-      return "\uFEFF" + rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
-    }
-
-    function csvCell(value) {
-      const text = String(value ?? "");
-      return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
-    }
-
     function show(text) {
       clearTimeout(toastTimer);
       el.toast.textContent = text;
@@ -630,81 +310,515 @@
       toastTimer = setTimeout(() => el.toast.classList.remove("show"), 1800);
     }
 
-    function esc(value) {
-      return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    /* ========== Data layer ========== */
+    function normalizeRecord(r, idx) {
+      return {
+        id: String(r.id || Date.now().toString(36) + idx),
+        date: String(r.date || ""),
+        item: canonName(r.item || ""),
+        quantity: Math.max(1, parseInt(r.quantity || 1, 10)),
+        source: String(r.source || r.item || ""),
+      };
+    }
+    function validateRecord(r) {
+      return /^\d{4}-\d{2}-\d{2}$/.test(r.date) && r.item;
+    }
+    function getMonthRecords(y, m) {
+      const prefix = monthKey(y, m);
+      return allRecords.filter((r) => r.date.startsWith(prefix));
+    }
+    function summaryRows(records) {
+      const totals = new Map();
+      records.forEach((r) => totals.set(r.item, (totals.get(r.item) || 0) + r.quantity));
+      return [...totals.entries()]
+        .map(([item, qty]) => {
+          const unit = priceMap.get(item) || 0;
+          return { item, quantity: qty, unit, total: unit * qty };
+        })
+        .sort((a, b) => (order.get(a.item) ?? 999) - (order.get(b.item) ?? 999) || a.item.localeCompare(b.item, "zh-CN"));
+    }
+    function dailyRows(records) {
+      const grouped = new Map();
+      const sorted = [...records].sort((a, b) => a.date.localeCompare(b.date) || (order.get(a.item) ?? 999) - (order.get(b.item) ?? 999));
+      sorted.forEach((r) => {
+        if (!grouped.has(r.date)) grouped.set(r.date, []);
+        grouped.get(r.date).push(r);
+      });
+      return [...grouped.entries()].map(([date, recs]) => ({
+        date,
+        records: recs,
+        total: recs.reduce((s, r) => s + (priceMap.get(r.item) || 0) * r.quantity, 0),
+      }));
+    }
+    function calcTotals(records) {
+      const rows = summaryRows(records);
+      const days = new Set(records.map((r) => r.date));
+      return {
+        amount: rows.reduce((s, r) => s + r.total, 0),
+        quantity: rows.reduce((s, r) => s + r.quantity, 0),
+        projects: rows.length,
+        workdays: days.size,
+      };
     }
 
-    el.form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const item = canonicalName(el.item.value);
-      const quantity = parseInt(el.qty.value || "1", 10);
-      if (!price.has(item)) return show("这个项目没有单价");
-      if (!Number.isInteger(quantity) || quantity <= 0) return show("数量要填正整数");
-      addRecord(el.date.value, item, quantity);
+    /* ========== Local storage ========== */
+    function localKey() {
+      const code = localStorage.getItem(SYNC_KEY) || "local";
+      return LOCAL_DATA_PREFIX + code;
+    }
+    function loadLocal() {
+      try {
+        const saved = localStorage.getItem(localKey());
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return null;
+    }
+    function saveLocal() {
+      const data = { records: allRecords, updatedAt: new Date().toISOString() };
+      localStorage.setItem(localKey(), JSON.stringify(data));
+    }
+
+    /* ========== Firebase layer ========== */
+    function getFirebaseConfig() {
+      try {
+        const saved = localStorage.getItem(FB_CONFIG_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return null;
+    }
+    function initFirebase(config) {
+      try {
+        if (fbApp) { fbApp.delete(); fbApp = null; fbDb = null; }
+        fbApp = firebase.initializeApp(config, "app-" + Date.now());
+        fbDb = firebase.firestore(fbApp);
+        fbDb.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+        isCloudMode = true;
+        return true;
+      } catch (e) {
+        console.error("Firebase init error:", e);
+        isCloudMode = false;
+        return false;
+      }
+    }
+    function getSyncCode() {
+      let code = localStorage.getItem(SYNC_KEY);
+      if (!code) {
+        code = Math.random().toString(36).slice(2, 8).toUpperCase();
+        localStorage.setItem(SYNC_KEY, code);
+      }
+      return code;
+    }
+    function subscribeCloud() {
+      if (!fbDb) return;
+      if (fbUnsub) fbUnsub();
+      const code = getSyncCode();
+      fbUnsub = fbDb.collection("workspaces").doc(code).collection("records")
+        .onSnapshot((snap) => {
+          const cloudRecords = [];
+          snap.forEach((doc) => {
+            const r = doc.data();
+            r.id = doc.id;
+            cloudRecords.push(r);
+          });
+          if (cloudRecords.length > 0 || allRecords.length > 0) {
+            allRecords = mergeRecords(allRecords, cloudRecords);
+            saveLocal();
+            render();
+          }
+          el.syncState.textContent = "云端已同步";
+          el.syncState.classList.remove("offline");
+          el.syncInfo.textContent = "云同步已连接。同步码: " + code;
+        }, (err) => {
+          console.error("Firestore listen error:", err);
+          el.syncState.textContent = "同步失败";
+          el.syncState.classList.add("offline");
+        });
+    }
+    function mergeRecords(local, cloud) {
+      const map = new Map();
+      local.forEach((r) => map.set(r.id, r));
+      cloud.forEach((r) => {
+        const existing = map.get(r.id);
+        if (!existing || (r.updatedAt && existing.updatedAt && r.updatedAt > existing.updatedAt)) {
+          map.set(r.id, r);
+        }
+      });
+      return [...map.values()].filter(validateRecord);
+    }
+    async function saveToCloud(record) {
+      if (!fbDb) return;
+      const code = getSyncCode();
+      record.updatedAt = new Date().toISOString();
+      try {
+        await fbDb.collection("workspaces").doc(code).collection("records").doc(record.id).set(record);
+      } catch (e) {
+        console.error("Cloud save error:", e);
+      }
+    }
+    async function deleteFromCloud(id) {
+      if (!fbDb) return;
+      const code = getSyncCode();
+      try {
+        await fbDb.collection("workspaces").doc(code).collection("records").doc(id).delete();
+      } catch (e) {
+        console.error("Cloud delete error:", e);
+      }
+    }
+    async function uploadAllToCloud() {
+      if (!fbDb) return;
+      const code = getSyncCode();
+      const batch = fbDb.batch();
+      allRecords.forEach((r) => {
+        const ref = fbDb.collection("workspaces").doc(code).collection("records").doc(r.id);
+        batch.set(ref, { ...r, updatedAt: new Date().toISOString() });
+      });
+      try { await batch.commit(); } catch (e) { console.error("Batch upload error:", e); }
+    }
+
+    /* ========== Add / Update / Delete ========== */
+    function addRecord(date, item, qty) {
+      const existing = allRecords.find((r) => r.date === date && r.item === item);
+      if (existing) {
+        existing.quantity += qty;
+        existing.updatedAt = new Date().toISOString();
+        saveLocal();
+        saveToCloud(existing);
+      } else {
+        const record = {
+          id: date + "-" + item.replace(/[^a-zA-Z0-9\u4e00-\u9fff]/g, "") + "-" + Date.now().toString(36),
+          date, item, quantity: qty, source: item,
+          updatedAt: new Date().toISOString()
+        };
+        allRecords.push(record);
+        saveLocal();
+        saveToCloud(record);
+      }
+      render();
+    }
+    function updateRecord(id, newQty) {
+      const r = allRecords.find((r) => r.id === id);
+      if (!r) return;
+      r.quantity = newQty;
+      r.updatedAt = new Date().toISOString();
+      saveLocal();
+      saveToCloud(r);
+      render();
+    }
+    function deleteRecord(id) {
+      allRecords = allRecords.filter((r) => r.id !== id);
+      saveLocal();
+      deleteFromCloud(id);
+      render();
+    }
+
+    /* ========== Render ========== */
+    function render() {
+      const records = getMonthRecords(viewYear, viewMonth);
+      const total = calcTotals(records);
+      el.monthTitle.textContent = labelMonth(viewYear, viewMonth);
+      el.amount.textContent = money(total.amount);
+      el.quantity.textContent = total.quantity;
+      el.projects.textContent = total.projects;
+      el.workdays.textContent = total.workdays;
+
+      const today = new Date();
+      const nowY = today.getFullYear(), nowM = today.getMonth() + 1;
+      el.nextMonth.disabled = (viewYear === nowY && viewMonth >= nowM);
+      el.prevMonth.disabled = false;
+
+      renderForm(records);
+      renderQuick(records);
+      renderSummary(records);
+      renderDaily(records);
+      renderSlip(records);
+    }
+    function renderForm(monthRecords) {
+      const mk = monthKey(viewYear, viewMonth);
+      el.date.min = mk + "-01";
+      el.date.max = mk + "-31";
+      if (!el.date.value) {
+        const today = todayIso();
+        el.date.value = today.startsWith(mk) ? today : mk + "-01";
+      }
+      const cur = el.item.value;
+      el.item.innerHTML = PRICE_ITEMS.map((p) =>
+        '<option value="' + esc(p.name) + '">' + esc(p.name) + " / " + p.unitPrice + "</option>"
+      ).join("");
+      if (cur && PRICE_ITEMS.some((p) => p.name === cur)) el.item.value = cur;
+    }
+    function renderQuick(monthRecords) {
+      const counts = new Map();
+      monthRecords.forEach((r) => counts.set(r.item, (counts.get(r.item) || 0) + r.quantity));
+      const items = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([item]) => item);
+      el.quick.innerHTML = items.map((item) =>
+        '<button type="button" data-quick="' + esc(item) + '">' + esc(item) + "</button>"
+      ).join("");
+    }
+    function renderSummary(monthRecords) {
+      const query = normKey(el.search.value);
+      const rows = summaryRows(monthRecords).filter((r) => normKey(r.item).includes(query));
+      if (!rows.length) { el.summary.innerHTML = '<div class="empty">没有明细</div>'; return; }
+      el.summary.innerHTML =
+        '<div class="summary-row header"><span>项目</span><span class="right">数量</span><span class="right">单价</span><span class="right">总价</span></div>' +
+        rows.map((r) => '<div class="summary-row"><strong>' + esc(r.item) + '</strong><span class="right">' + r.quantity + '</span><span class="right">' + money(r.unit) + '</span><span class="right">' + money(r.total) + '</span></div>').join("");
+    }
+    function renderDaily(monthRecords) {
+      const groups = dailyRows(monthRecords);
+      if (!groups.length) { el.daily.innerHTML = '<div class="empty">暂无记录</div>'; return; }
+      el.daily.innerHTML = groups.map((g) => {
+        const entries = g.records.map((r) => {
+          const unit = priceMap.get(r.item) || 0;
+          return '<div class="entry" data-id="' + esc(r.id) + '">' +
+            '<div class="entry-title"><strong>' + esc(r.item) + '</strong><span>' + money(unit) + ' x ' + r.quantity + ' = ' + money(unit * r.quantity) + '</span></div>' +
+            '<div class="entry-actions"><input type="number" min="1" step="1" value="' + r.quantity + '" aria-label="' + esc(r.item) + '数量">' +
+            '<div class="entry-buttons"><button class="tiny" type="button" data-action="update">更新</button><button class="tiny danger" type="button" data-action="delete">删除</button></div></div>' +
+            '</div>';
+        }).join("");
+        return '<article class="day"><div class="day-title"><span>' + labelDate(g.date) + '</span><span>' + money(g.total) + '</span></div>' + entries + '</article>';
+      }).join("");
+    }
+    function renderSlip(monthRecords) {
+      const rows = summaryRows(monthRecords);
+      const total = calcTotals(monthRecords);
+      if (!rows.length) {
+        el.slipCard.innerHTML = '<div class="empty">本月暂无记录，无法生成工资单</div>';
+        return;
+      }
+      const tableRows = rows.map((r) =>
+        '<tr><td>' + esc(r.item) + '</td><td>' + r.quantity + '</td><td>' + money(r.unit) + '</td><td style="font-weight:700">' + money(r.total) + '</td></tr>'
+      ).join("");
+      el.slipCard.innerHTML =
+        '<div class="slip-header"><h3>工资结算单</h3><p>' + labelMonth(viewYear, viewMonth) + '</p></div>' +
+        '<div class="slip-stats">' +
+          '<div class="slip-stat"><span>工作天数</span><strong>' + total.workdays + '</strong></div>' +
+          '<div class="slip-stat"><span>完成数量</span><strong>' + total.quantity + '</strong></div>' +
+        '</div>' +
+        '<table class="slip-table"><thead><tr><th>项目</th><th>数量</th><th>单价</th><th>小计</th></tr></thead><tbody>' + tableRows + '</tbody></table>' +
+        '<div class="slip-total"><span>本月工资总计</span><strong>&yen;' + money(total.amount) + '</strong></div>' +
+        '<div class="slip-footer">生成日期: ' + todayIso() + '</div>';
+
+      // Also update hidden export card
+      el.slipExport.innerHTML =
+        '<div class="slip-header"><h3 style="color:#174d41;font-size:24px;margin:0;">工资结算单</h3><p style="color:#746f66;font-size:14px;margin:6px 0 0;">' + labelMonth(viewYear, viewMonth) + '</p></div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">' +
+          '<div style="background:#f7f4ee;border-radius:8px;padding:12px;text-align:center;"><span style="color:#746f66;font-size:13px;font-weight:700;display:block;">工作天数</span><strong style="font-size:28px;color:#256f5c;display:block;margin-top:4px;">' + total.workdays + '</strong></div>' +
+          '<div style="background:#f7f4ee;border-radius:8px;padding:12px;text-align:center;"><span style="color:#746f66;font-size:13px;font-weight:700;display:block;">完成数量</span><strong style="font-size:28px;color:#256f5c;display:block;margin-top:4px;">' + total.quantity + '</strong></div>' +
+        '</div>' +
+        '<table style="width:100%;border-collapse:collapse;font-size:15px;margin-bottom:16px;"><thead><tr style="background:#f7f4ee;">' +
+          '<th style="padding:10px 8px;text-align:left;border-bottom:2px solid #ded7ca;font-size:13px;color:#746f66;">项目</th>' +
+          '<th style="padding:10px 8px;text-align:right;border-bottom:2px solid #ded7ca;font-size:13px;color:#746f66;">数量</th>' +
+          '<th style="padding:10px 8px;text-align:right;border-bottom:2px solid #ded7ca;font-size:13px;color:#746f66;">单价</th>' +
+          '<th style="padding:10px 8px;text-align:right;border-bottom:2px solid #ded7ca;font-size:13px;color:#746f66;">小计</th>' +
+        '</tr></thead><tbody>' +
+        rows.map((r) =>
+          '<tr><td style="padding:8px;border-bottom:1px solid #eee7dc;">' + esc(r.item) + '</td>' +
+          '<td style="padding:8px;text-align:right;border-bottom:1px solid #eee7dc;">' + r.quantity + '</td>' +
+          '<td style="padding:8px;text-align:right;border-bottom:1px solid #eee7dc;">' + money(r.unit) + '</td>' +
+          '<td style="padding:8px;text-align:right;border-bottom:1px solid #eee7dc;font-weight:700;">' + money(r.total) + '</td></tr>'
+        ).join("") +
+        '</tbody></table>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:3px solid #256f5c;">' +
+          '<span style="font-size:16px;font-weight:800;">本月工资总计</span>' +
+          '<strong style="font-size:34px;color:#256f5c;">&yen;' + money(total.amount) + '</strong>' +
+        '</div>' +
+        '<div style="text-align:center;color:#746f66;font-size:13px;margin-top:10px;">生成日期: ' + todayIso() + '</div>';
+    }
+
+    /* ========== Export ========== */
+    function downloadFile(filename, type, text) {
+      const blob = new Blob([text], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 800);
+    }
+    function csvText() {
+      const records = getMonthRecords(viewYear, viewMonth);
+      const rows = [["项目", "数量", "单价", "总价"]];
+      summaryRows(records).forEach((r) => rows.push([r.item, r.quantity, money(r.unit), money(r.total)]));
+      return "\uFEFF" + rows.map((row) => row.map((v) => {
+        const t = String(v ?? "");
+        return /[",\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+      }).join(",")).join("\r\n");
+    }
+    async function exportSlipImage() {
+      if (typeof html2canvas === "undefined") { show("图片库加载中..."); return; }
+      try {
+        show("正在生成图片...");
+        const canvas = await html2canvas(el.slipExport, {
+          scale: 2, backgroundColor: "#fffdf8", useCORS: true
+        });
+        const url = canvas.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = labelMonth(viewYear, viewMonth) + "工资单.png";
+        document.body.appendChild(a); a.click(); a.remove();
+        show("工资单已保存");
+      } catch (e) {
+        console.error("Export error:", e);
+        show("导出失败");
+      }
+    }
+
+    /* ========== Events ========== */
+    el.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const item = canonName(el.item.value);
+      const qty = parseInt(el.qty.value || "1", 10);
+      if (!priceMap.has(item)) return show("这个项目没有单价");
+      if (!Number.isInteger(qty) || qty <= 0) return show("数量要填正整数");
+      addRecord(el.date.value, item, qty);
       el.qty.value = 1;
       show("已保存");
     });
-
     el.minus.addEventListener("click", () => el.qty.value = Math.max(1, parseInt(el.qty.value || "1", 10) - 1));
     el.plus.addEventListener("click", () => el.qty.value = Math.max(1, parseInt(el.qty.value || "1", 10) + 1));
-    el.quick.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-quick]");
-      if (button) el.item.value = button.dataset.quick;
+    el.quick.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-quick]");
+      if (btn) el.item.value = btn.dataset.quick;
     });
-    el.search.addEventListener("input", renderSummary);
-    el.tabs.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-view]");
-      if (!button) return;
-      document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab === button));
-      document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === button.dataset.view + "View"));
+    el.search.addEventListener("input", () => renderSummary(getMonthRecords(viewYear, viewMonth)));
+    el.tabs.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-view]");
+      if (!btn) return;
+      document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t === btn));
+      document.querySelectorAll(".view").forEach((v) => v.classList.toggle("active", v.id === btn.dataset.view + "View"));
     });
-    el.daily.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-action]");
-      if (!button) return;
-      const entry = button.closest(".entry");
+    el.prevMonth.addEventListener("click", () => {
+      viewMonth--;
+      if (viewMonth < 1) { viewMonth = 12; viewYear--; }
+      el.date.value = "";
+      render();
+    });
+    el.nextMonth.addEventListener("click", () => {
+      const now = new Date();
+      const ny = now.getFullYear(), nm = now.getMonth() + 1;
+      if (viewYear === ny && viewMonth >= nm) return;
+      viewMonth++;
+      if (viewMonth > 12) { viewMonth = 1; viewYear++; }
+      el.date.value = "";
+      render();
+    });
+    el.daily.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-action]");
+      if (!btn) return;
+      const entry = btn.closest(".entry");
       const id = entry.dataset.id;
-      const record = data.records.find((item) => item.id === id);
-      if (!record) return;
-      if (button.dataset.action === "delete") {
-        data.records = data.records.filter((item) => item.id !== id);
-        save();
-        render();
+      if (btn.dataset.action === "delete") {
+        deleteRecord(id);
         show("已删除");
       }
-      if (button.dataset.action === "update") {
+      if (btn.dataset.action === "update") {
         const next = parseInt(entry.querySelector("input").value || "1", 10);
         if (!Number.isInteger(next) || next <= 0) return show("数量要填正整数");
-        record.quantity = next;
-        save();
-        render();
+        updateRecord(id, next);
         show("已更新");
       }
     });
     el.exportJson.addEventListener("click", () => {
-      download("手工记录备份.json", "application/json;charset=utf-8", JSON.stringify(data, null, 2));
+      const data = { records: allRecords, updatedAt: new Date().toISOString() };
+      downloadFile("手工记录备份.json", "application/json;charset=utf-8", JSON.stringify(data, null, 2));
       show("已导出 JSON");
     });
     el.exportCsv.addEventListener("click", () => {
-      download("5月项目明细.csv", "text/csv;charset=utf-8", csv());
+      downloadFile(viewMonth + "月项目明细.csv", "text/csv;charset=utf-8", csvText());
       show("已导出 CSV");
     });
     el.importJson.addEventListener("change", async () => {
       const file = el.importJson.files[0];
       if (!file) return;
       try {
-        data = normalize(JSON.parse(await file.text()));
-        save();
+        const imported = JSON.parse(await file.text());
+        const records = Array.isArray(imported.records) ? imported.records : [];
+        const normalized = records.map(normalizeRecord).filter(validateRecord);
+        allRecords = mergeRecords(allRecords, normalized);
+        saveLocal();
+        if (isCloudMode) uploadAllToCloud();
         render();
-        show("已导入");
-      } catch (error) {
+        show("已导入 " + normalized.length + " 条记录");
+      } catch (err) {
         show("导入失败");
       } finally {
         el.importJson.value = "";
       }
     });
+    el.exportSlip.addEventListener("click", exportSlipImage);
 
-    render();
-    save();
+    /* ========== Settings / Sync ========== */
+    el.genSyncCode.addEventListener("click", () => {
+      const code = getSyncCode();
+      el.currentSyncCode.textContent = "你的同步码: " + code;
+      show("同步码已生成");
+    });
+    el.joinSyncCode.addEventListener("click", () => {
+      const code = prompt("请输入同步码（6位字母数字）:");
+      if (!code) return;
+      const trimmed = code.trim().toUpperCase();
+      if (trimmed.length < 4) return show("同步码太短");
+      localStorage.setItem(SYNC_KEY, trimmed);
+      el.currentSyncCode.textContent = "已加入同步码: " + trimmed;
+      if (isCloudMode) { subscribeCloud(); }
+      show("已加入同步");
+    });
+    el.saveFirebaseConfig.addEventListener("click", () => {
+      const raw = el.firebaseConfigInput.value.trim();
+      if (!raw) return show("请输入配置");
+      try {
+        const config = JSON.parse(raw);
+        if (!config.apiKey || !config.projectId) return show("配置缺少 apiKey 或 projectId");
+        localStorage.setItem(FB_CONFIG_KEY, raw);
+        if (initFirebase(config)) {
+          subscribeCloud();
+          uploadAllToCloud();
+          show("Firebase 已连接");
+        } else {
+          show("Firebase 初始化失败");
+        }
+      } catch (e) {
+        show("JSON 格式错误");
+      }
+    });
+
+    /* ========== Init ========== */
+    (function init() {
+      const now = new Date();
+      viewYear = now.getFullYear();
+      viewMonth = now.getMonth() + 1;
+
+      // Load local data
+      const saved = loadLocal();
+      if (saved && saved.records && saved.records.length > 0) {
+        allRecords = saved.records.map(normalizeRecord).filter(validateRecord);
+      } else {
+        // First time: load initial data
+        allRecords = (INITIAL_DATA.records || []).map(normalizeRecord).filter(validateRecord);
+        saveLocal();
+      }
+
+      // Try Firebase
+      const fbConfig = getFirebaseConfig();
+      if (fbConfig) {
+        el.firebaseConfigInput.value = JSON.stringify(fbConfig);
+        if (initFirebase(fbConfig)) {
+          subscribeCloud();
+        } else {
+          el.syncState.textContent = "本机保存";
+          el.syncInfo.textContent = "Firebase 配置有误，数据仅保存在本机。";
+        }
+      } else {
+        el.syncState.textContent = "本机保存";
+        el.syncInfo.textContent = "未配置 Firebase，数据仅保存在本机浏览器。请在下方输入 Firebase 配置来开启云同步。";
+      }
+
+      // Show sync code if exists
+      const code = localStorage.getItem(SYNC_KEY);
+      if (code && code !== "local") {
+        el.currentSyncCode.textContent = "当前同步码: " + code;
+      }
+
+      render();
+    })();
   </script>
   <script>
     if ("serviceWorker" in navigator) {

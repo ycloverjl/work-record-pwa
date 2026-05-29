@@ -1,4 +1,4 @@
-const CACHE_NAME = "work-record-v1";
+const CACHE_NAME = "work-record-v2";
 const BASE = "/work-record-pwa/";
 const ASSETS = [
   BASE,
